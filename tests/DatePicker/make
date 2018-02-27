@@ -1,0 +1,31 @@
+#!/bin/bash
+
+SOURCES="/deme/dmjs18/libs/basic/src src/*.js ../../src/*.js"
+
+# DON'T CHANGE vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+COMPILER=/deme/dmjs18/tools/closure-compiler-v20171203.jar
+PRETTY=" --compilation_level ADVANCED_OPTIMIZATIONS "
+if [ "$1" == "pretty" ]
+then
+  PRETTY=" --formatting PRETTY_PRINT "
+fi
+SS=""
+for SOURCE in $SOURCES
+do
+  SS=$SS" --js "$SOURCE
+done
+
+compile () {
+  java -jar $COMPILER \
+    --warning_level VERBOSE \
+    --dependency_mode=STRICT \
+    $SS \
+    --entry_point Main \
+    --js_output_file www/index.js \
+    $PRETTY
+}
+
+echo "Compiling..."
+compile
+echo "... end compilation."

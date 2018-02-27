@@ -1,0 +1,106 @@
+/*
+ * Copyright 13-aug-2013 ºDeme
+ *
+ * This file is part of 'dmWidgets'.
+ *
+ * 'dmWidgets' is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License.
+ *
+ * 'dmWidgets' is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with 'dmWidgets'.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.dmDatePicker,
+.dmDatePicker span,
+.dmDatePicker td {
+  font: 12px Arial, sans-serif;
+  text-align:center;
+}
+
+.dmDatePicker {
+  border: 1px solid #001020;
+  border-collapse: collapse;
+  padding: 2px;
+  color: #000000;
+  background: #c3d9f0;
+  cursor: default;
+}
+
+.dmDatePicker td {
+  width:24px;
+}
+
+.dmDatePicker td.arrow {
+  cursor: pointer;
+  color: #000080;
+  width:2px;
+  font-size:large;
+}
+
+.dmDatePicker span.title {
+  font-weight:bold;
+}
+
+.dmDatePicker span.link {
+  font-weight:bold;
+  cursor: pointer;
+  color: #000080;
+}
+
+.dmDatePicker span.day {
+  cursor: pointer;
+}
+
+.dmDatePicker table {
+  border-collapse: collapse;
+}
+
+.dmDatePicker table.in {
+  border:0px;
+  width:100%;
+}
+
+.dmDatePicker td.left {
+  text-align: left;
+}
+
+.dmDatePicker td.right {
+  text-align: right;
+}
+
+.dmDatePicker td.select {
+  background: #c3d9f0;
+}
+
+.dmDatePicker td.day {
+  background: #f9f9f9;
+}
+
+.dmDatePicker td.weekend {
+  background: #e9e9e9;
+}
+
+.dmDatePicker td.dayOut {
+  background: #f9f9f9;
+  color: #808080;
+}
+
+.dmDatePicker td.weekendOut {
+  background: #e9e9e9;
+  color: #808080;
+}
+
+.dmDatePicker td.today {
+  background: #c9c9d0;
+  font-weight:bold;
+}
+
+
+
+
