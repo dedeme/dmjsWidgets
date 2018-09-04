@@ -293,7 +293,7 @@ export default class DatePicker {
 
         const ddate1 = date1;
         d.html("<span class='day'>" + ddate1.day + "</span>");
-        d.e().onclick = () => {
+        d.e.onclick = () => {
           self.mkDayFunction(ddate1);
         };
 
@@ -302,16 +302,16 @@ export default class DatePicker {
     });
 
     if (self._tb.att("hasTrEx") === "true") {
-      self._tb.e().removeChild(self._exTr.e());
+      self._tb.e.removeChild(self._exTr.e);
       self._tb.att("hasTrEx", "false");
     }
 
     if (extraRow) {
-      self._tb.e().removeChild(self._tr4.e());
+      self._tb.e.removeChild(self._tr4.e);
 
-      self._tb.e().appendChild(self._exTr.e());
-      self._tb.e().appendChild(self._tr4.e());
-      self._tb.e().setAttribute("hasTrEx", "true");
+      self._tb.e.appendChild(self._exTr.e);
+      self._tb.e.appendChild(self._tr4.e);
+      self._tb.e.setAttribute("hasTrEx", "true");
     }
   }
 
@@ -427,15 +427,15 @@ export default class DatePicker {
         isShow = true;
         return;
       }
-      span.e().removeChild(span.e().lastChild);
+      span.e.removeChild(span.e.lastChild);
       isShow = false;
     };
-    button.e().onclick = btAction;
+    button.e.onclick = btAction;
 
     const previousAction = self._action;
     self._action = s => {
       previousAction(s);
-      span.e().removeChild(span.e().lastChild);
+      span.e.removeChild(span.e.lastChild);
       isShow = false;
     };
 
@@ -466,12 +466,12 @@ export default class DatePicker {
         isShow = true;
         return;
       }
-      span.e().removeChild(span.e().lastChild);
+      span.e.removeChild(span.e.lastChild);
       isShow = false;
     };
     textInput.value(format(self._date.toBase()));
-    textInput.e().onclick = btAction;
-    textInput.e().onkeydown = function (e) {
+    textInput.e.onclick = btAction;
+    textInput.e.onkeydown = function (e) {
       e.preventDefault();
     };
 
@@ -479,7 +479,7 @@ export default class DatePicker {
     self._action = s => {
       textInput.value(s === "" ? "" : format(s));
       previousAction(s);
-      span.e().removeChild(span.e().lastChild);
+      span.e.removeChild(span.e.lastChild);
       isShow = false;
     };
 

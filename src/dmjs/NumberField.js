@@ -20,14 +20,14 @@ export default class NumberField {
       const keyDecimal = isEn ? 190 : 188;
       const keyThousand = isEn ? 188 : 190;
       const r = $("input").att("type", "text");
-      const el = r.e();
+      const el = r.e;
       el.onkeydown = e => {
         const withDecimal = r.value().indexOf(isEn ? "." : ",") !== -1;
         const withSign = r.value().indexOf("-") !== -1;
         const keyCode = e.keyCode;
         if (keyCode === 13 && nextFocus !== undefined) {
           e.preventDefault();
-          $("#" + nextFocus).e().focus();
+          $("#" + nextFocus).e.focus();
           return false;
         }
 
