@@ -13,7 +13,7 @@ import Domo from "./Domo.js"
 const $ = Ui.$;
 
 /** @private */
-class Captchaa {
+class Model {
   constructor (zeroColor, oneColor) {
     /** private */
     this._zeroColor = zeroColor;
@@ -66,7 +66,7 @@ class Captchaa {
   }
 }
 
-export default class Captchab {
+export default class Captcha {
 
   /**
    * @param {string} storeId Identifier for store Captcha data in local store.
@@ -84,8 +84,8 @@ export default class Captchab {
      * @const {number}
      */
     this._counterLimit = counterLimit;
-    /** @const {!Captchaa} */
-    this._captcha = new Captchaa(
+    /** @const {!Model} */
+    this._model = new Model(
       zeroColor || "#f0f0f0",
       oneColor || "#c0c0c0"
     );
@@ -144,13 +144,13 @@ export default class Captchab {
    * @return {boolean} Indicates if user selection is valid
    */
   match () {
-    return this._captcha.match();
+    return this._model.match();
   }
 
   /**
    * @return {!Domo} Captcha object
    */
   make () {
-    return this._captcha.make();
+    return this._model.make();
   }
 }
