@@ -1,27 +1,29 @@
-// Copyright 1-Sep-2017 ºDeme
+// Copyright 04-Sep-2018 ºDeme
 // GNU General Public License - V3 <http://www.gnu.org/licenses/>
 
-goog.provide("Main")
-goog.require("github_dedeme");
-goog.require("github_dedeme.DatePicker");
+import Ui from "./dmjs/Ui.js";
+import DateDm from "./dmjs/DateDm.js";
+import DatePicker from "./dmjs/DatePicker.js";
 
-Main = class {
+const $ = Ui.$;
+
+export default class Main {
   run () {
-    const DatePicker = github_dedeme.DatePicker/**/;
-
     const datePicker1 = () => {
       const div = $("div");
       let d = DateDm.now();
       d = d.add(2);
-      let dp = new DatePicker();
-      dp.setDate(d);
-      dp.setLang("en");
-      dp.setAction(d => { alert("Picked date is '" + d + "'"); });
+      const dp = new DatePicker();
+      dp.date = d;
+      dp.lang = "en";
+      dp.action = d => {
+        alert("Picked date is '" + d + "'");
+      };
 
       return div
         .add($("h2").html("DatePicker 1"))
         .add(dp.make());
-    }
+    };
 
     const datePicker2 = () => {
       const bt = $("button").html("Date Picker");
@@ -29,10 +31,12 @@ Main = class {
       const div = $("div");
       let d = DateDm.now();
       d = d.add(-2);
-      let dp = new DatePicker();
-      dp.setDate(d);
-      dp.setLang("en");
-      dp.setAction(d => { alert("Picked date is '" + d + "'"); });
+      const dp = new DatePicker();
+      dp.date = d;
+      dp.lang = "en";
+      dp.action = d => {
+        alert("Picked date is '" + d + "'");
+      };
 
       return div
         .add($("h2").html("DatePicker 2"))
@@ -40,16 +44,18 @@ Main = class {
           .add(dp.makeButton(bt))
           .add($("span").html("Next Text")))
         .add($("h3").html("Some text"));
-    }
+    };
 
     const datePicker3 = () => {
-      var input = $("input").att("type", "text");
+      const input = $("input").att("type", "text");
 
-      var div = $("div");
-      var d = DateDm.now();
-      var dp = new DatePicker();
-      dp.setDate(d);
-      dp.setAction(d => { alert("Picked date is '" + d + "'"); });
+      const div = $("div");
+      const d = DateDm.now();
+      const dp = new DatePicker();
+      dp.date = d;
+      dp.action = d => {
+        alert("Picked date is '" + d + "'");
+      };
 
       return div
         .add($("h2").html("DatePicker 3"))
@@ -57,18 +63,14 @@ Main = class {
           .add(dp.makeText(input))
           .add($("span").html("Next Text")))
         .add($("h3").html("Some text"));
-    }
+    };
 
-    let t = new Test("DatePicker");
 
-    Ui.$$("body").next()
+    Ui.$("@body")
       .add(datePicker1())
       .add(datePicker2())
       .add(datePicker3())
     ;
-    t.log();
 
-  };
+  }
 }
-
-new Main().run();
