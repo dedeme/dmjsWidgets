@@ -31,10 +31,6 @@ module.exports = {
             "error",
             "always"
         ],
-
-        "valid-jsdoc": [
-            "error"
-        ],
         "array-callback-return": [
             "error"
         ],
