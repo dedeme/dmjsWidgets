@@ -36,7 +36,7 @@ export default class DatePicker {
      * First day of current month.
      * @type {DateDm}
      */
-    this._dateView = null;
+    this._dateView = new DateDm(1, this._date.month, this._date.year);
     /**
      * @private
      * If DatePicker is style floating.
