@@ -21,14 +21,14 @@ export default class DatePicker {
      * @private
      * @type {DateDm}
      */
-    this._date = null;
+    this._date = DateDm.now();
     /**
      * @private
      * @param {string} s date
      * @return {void}
      */
     this._action = s => {
-      alert("'" + s + " was clicked");
+      alert("'" + s + "' was clicked");
     };
 
     /**
@@ -79,8 +79,6 @@ export default class DatePicker {
      * @type {!Domo}
      */
     this._tb = $("table");
-
-    this.date = DateDm.now();
   }
 
   /** @return {DateDm} Date */
