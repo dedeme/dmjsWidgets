@@ -72,7 +72,8 @@ export default class NumberField {
           (!ctrl || keyCode !== 67) &&
           (!ctrl || keyCode !== 86) &&
           (!ctrl || keyCode !== 88) &&
-          (withSign || el.selectionStart !== 0 || keyCode !== 109)
+          (withSign || el.selectionStart/**/ !== 0 ||
+            (keyCode !== 109 && keyCode !== 173))
         ) {
           Ui.beep();
           return false;
@@ -103,7 +104,7 @@ export default class NumberField {
   /**
    * @return {!Domo} The DOM object
    */
-  input () {
+  get input () {
     return this._input;
   }
 

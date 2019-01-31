@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ ! -e lib ]
+then
+  mkdir lib
+fi
+cd lib
+
+if [ -e tmp ]
+then
+  rm -fR tmp
+fi
+mkdir tmp
+cd tmp
+git clone https://github.com/dedeme/libdmjs.git
+cd ..
+
+if [ -e dmjs ]
+then
+  rm -fR dmjs
+fi
+mv tmp/libdmjs/src/dmjs dmjs
+rm -fR tmp
+
+
