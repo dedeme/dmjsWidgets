@@ -44,7 +44,6 @@ export default class NumberField {
           el.selectionStart = start + 1;
           el.selectionEnd = start + 1;
           return false;
-
         }
 
         if (keyCode === keyDecimal && withDecimal) {
@@ -69,10 +68,11 @@ export default class NumberField {
           keyCode !== 39 &&
           (keyCode < 48 || keyCode > 57) &&
           (keyCode < 96 || keyCode > 105) &&
-          (!ctrl || keyCode !== 67) &&
-          (!ctrl || keyCode !== 86) &&
-          (!ctrl || keyCode !== 88) &&
-          (withSign || el.selectionStart/**/ !== 0 ||
+          (!ctrl || keyCode !== 67) && // ctrl-C
+          (!ctrl || keyCode !== 86) && // ctrl-V
+          (!ctrl || keyCode !== 88) && // ctrl-X
+          ((withSign && (el.selectionStart !== 0 || el.selectionEnd === 0)) ||
+            el.selectionStart !== 0 ||
             (keyCode !== 109 && keyCode !== 173))
         ) {
           Ui.beep();

@@ -9,10 +9,10 @@ const $ = Ui.$;
 
 export default class Main {
   run () {
-    const nf = new NumberField(false);
+    const nf = new NumberField(false, "bt");
     Ui.$("@body")
       .add(nf.input)
-      .add($("button").text("show").on("click", () => {
+      .add($("button").att("id", "bt").text("show").on("click", () => {
         alert(nf.value(2));
         nf.setValue(new Dec(33.12, 2));
       }))
