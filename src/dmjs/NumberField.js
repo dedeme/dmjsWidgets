@@ -8,12 +8,15 @@ import Domo from "./Domo.js";
 
 const $ = Ui.$;
 
-/** Number input */
+/**
+    Number input.
+**/
 export default class NumberField {
+
   /**
-   * @param {boolean} isEn If number is in English format
-   * @param {string=} nextFocus Id of next widget.
-   */
+      @param {boolean} isEn If number is in English format.
+      @param {string=} nextFocus Id of next widget.
+  **/
   constructor (isEn, nextFocus) {
     let ctrl = false;
     function mk () {
@@ -82,56 +85,52 @@ export default class NumberField {
       };
 
       el.onkeyup = e => {
-        if (e.keyCode === 17) {
-          ctrl = false;
-        }
+        if (e.keyCode === 17) ctrl = false;
       };
 
       return r;
     }
 
-    /** @private */
+    /**
+        @private
+    **/
     this._isEn = isEn;
 
     /**
-     * @private
-     * @type {!Domo}
-     */
+        @private
+        @type {!Domo}
+    **/
     this._input = mk();
 
   }
 
   /**
-   * @return {!Domo} The DOM object
-   */
+      @return {!Domo} The DOM object.
+  **/
   get input () {
     return this._input;
   }
 
   /**
-   * Sets this.input() value. If 'n' is null delete the field.
-   * @param {Dec} n Value
-   * @return {!NumberField} This
-   */
+      Sets this.input() value. If 'n' is null delete the field.
+      @param {Dec} n Value.
+      @return {!NumberField} This.
+  **/
   setValue (n) {
-    if (n === null) {
-      this._input.value("");
-    } else {
-      this._input.value(this._isEn ? n.toEn() : n.toEu());
-    }
+    if (n === null) this._input.value("");
+    else this._input.value(this._isEn ? n.toEn() : n.toEu());
     return this;
   }
 
   /**
-   * Returns this.input() value. If the field is empty, it returns 'null'.
-   * @param {number} scale Decimal positions
-   * @return {Dec} Value
-   */
+      Returns this.input() value. If the field is empty, it returns 'null'.
+      @param {number} scale Decimal positions.
+      @return {Dec} Value.
+  **/
   value (scale) {
     const v = this._input.value().trim();
-    if (v === "") {
+    if (v === "")
       return null;
-    }
     return this._isEn ? Dec.newEn(v, scale) : Dec.newEu(v, scale);
   }
 }
