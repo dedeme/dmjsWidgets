@@ -7,7 +7,7 @@ import Domo from "./Domo.js";
 import Ui from "./Ui.js";
 import It from "./It.js";
 
-const $ = Ui.$;
+const $ = e => Ui.$(e);
 
 /**
     Date selector

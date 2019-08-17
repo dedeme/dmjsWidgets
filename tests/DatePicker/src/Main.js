@@ -5,7 +5,7 @@ import Ui from "./dmjs/Ui.js";
 import DateDm from "./dmjs/DateDm.js";
 import DatePicker from "./dmjs/DatePicker.js";
 
-const $ = Ui.$;
+const $ = e => Ui.$(e);
 
 export default class Main {
   run () {

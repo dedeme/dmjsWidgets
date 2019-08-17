@@ -4,7 +4,7 @@
 import Domo from "../dmjs/Domo.js"; //eslint-disable-line
 import Ui from "../dmjs/Ui.js";
 
-const $ = Ui.$;
+const $ = e => Ui.$(e);
 
 /**
     Menu widget.

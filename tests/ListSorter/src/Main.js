@@ -4,7 +4,7 @@
 import Ui from "./dmjs/Ui.js";
 import ListSorter from "./dmjs/ListSorter.js";
 
-const $ = Ui.$;
+const $ = e => Ui.$(e);
 
 let listA = [1, 2, 3];
 let listB = [[1, "one"], [2, "two"], [3, "three"]];

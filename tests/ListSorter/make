@@ -5,7 +5,7 @@ LIBS="lib/dmjs"
 
 # DON'T CHANGE vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-COMPILER=$JS_ROOT/tools/closure-compiler-v20180805.jar
+COMPILER=$JS_ROOT/tools/closure-compiler-v20190729.jar
 
 cp -fR lib/dmjs src
 cp -fR ../../src/dmjs src
@@ -16,7 +16,7 @@ compile () {
     --dependency_mode STRICT \
     --module_resolution BROWSER \
     --js_module_root "src" \
-    --dependency_mode  NONE \
+    --dependency_mode  PRUNE \
     --js src \
     --compilation_level=ADVANCED_OPTIMIZATIONS \
     --entry_point index.js \

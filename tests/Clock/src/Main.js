@@ -4,7 +4,7 @@
 import Ui from "./dmjs/Ui.js";
 import Clock from "./dmjs/Clock.js";
 
-const $ = Ui.$;
+const $ = e => Ui.$(e);
 
 export default class Main {
   run () {

@@ -5,7 +5,7 @@
 import Domo from "./Domo.js";
 import Ui from "./Ui.js";
 
-const $ = Ui.$;
+const $ = e => Ui.$(e);
 
 class Timer {
 

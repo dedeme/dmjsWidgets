@@ -13,7 +13,7 @@ import DateDm from "./DateDm.js";
 // eslint-disable-next-line
 import Domo from "./Domo.js"
 
-const $ = Ui.$;
+const $ = e => Ui.$(e);
 
 /**
   @private

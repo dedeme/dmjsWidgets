@@ -6,7 +6,7 @@ import Ui from "./Ui.js";
 // eslint-disable-next-line
 import Domo from "./Domo.js";
 
-const $ = Ui.$;
+const $ = e => Ui.$(e);
 
 /**
     Number input.
