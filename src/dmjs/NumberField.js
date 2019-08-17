@@ -118,7 +118,7 @@ export default class NumberField {
   **/
   setValue (n) {
     if (n === null) this._input.value("");
-    else this._input.value(this._isEn ? n.toEn() : n.toEu());
+    else this._input.value(this._isEn ? n.toEn() : n.toIso());
     return this;
   }
 
@@ -131,7 +131,7 @@ export default class NumberField {
     const v = this._input.value().trim();
     if (v === "")
       return null;
-    return this._isEn ? Dec.newEn(v, scale) : Dec.newEu(v, scale);
+    return this._isEn ? Dec.newEn(v, scale) : Dec.newIso(v, scale);
   }
 }
 
