@@ -14,11 +14,11 @@ export default class Menu {
   /**
       @param {boolean=} withSeparator (Default false)
   **/
-  constructor (withSeparator) {
+  constructor (withSeparator = false) {
     /**
         @private
     **/
-    this._withSeparator = withSeparator === undefined ? false : withSeparator;
+    this._withSeparator = withSeparator;
     /**
         @private
         @type {string}

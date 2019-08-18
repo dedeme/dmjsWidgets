@@ -16,7 +16,7 @@ export default class ModalBox {
       @param {!Domo} content
       @param {boolean=} withClose (Default 'true').
   **/
-  constructor (content, withClose) {
+  constructor (content, withClose = true) {
     const tb = $("table").att("align", "center")
       .style(
         "background-color: rgb(250, 250, 250);" +
@@ -24,7 +24,7 @@ export default class ModalBox {
         "padding: 4px;border-radius: 4px;"
       );
 
-    if (withClose === undefined || withClose)
+    if (withClose)
       tb.add($("tr")
         .add($("td").style("width:100%;text-align:right;padding-bottom:5px")
           .add($("span").text("[ "))
@@ -69,14 +69,6 @@ export default class ModalBox {
   show (value) {
     if (value) this._wg.setStyle("display", "block");
     else this._wg.setStyle("display", "none");
-  }
-
-  /**
-      @return {!Domo} A 'div' with a 'X' to close ModalBox.
-  **/
-  close () {
-    return $("div")
-    ;
   }
 
 }

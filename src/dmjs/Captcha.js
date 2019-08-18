@@ -76,7 +76,9 @@ export default class Captcha {
       @param {string=} zeroColor Color cells to not mark (Default: "#f0f0f0").
       @param {string=} oneColor Color cells to mark (Default: "#c0c0c0").
   **/
-  constructor (storeId, counterLimit, zeroColor, oneColor) {
+  constructor (
+    storeId, counterLimit, zeroColor = "#f0f0f0", oneColor = "#c0c0c0"
+  ) {
     /**
         @private
         @const {string}
@@ -91,10 +93,7 @@ export default class Captcha {
         @private
         @const {!Model}
     **/
-    this._model = new Model(
-      zeroColor || "#f0f0f0",
-      oneColor || "#c0c0c0"
-    );
+    this._model = new Model(zeroColor, oneColor);
   }
 
   /**
