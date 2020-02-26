@@ -5,9 +5,10 @@
 import Domo from "./Domo.js";
 import Ui from "./Ui.js";
 
-const $ = Ui.$;
+const $ = e => Ui.$(e);
 
 class Timer {
+
   constructor (f, time) {
     this._f = f;
     this._time = time;
@@ -15,20 +16,19 @@ class Timer {
   }
 
   start () {
-    if (this._interval !== null) {
-      clearInterval(this._interval);
-    }
+    if (this._interval !== null) clearInterval(this._interval);
     this._interval = setInterval(this._f, this._time);
   }
 
   stop () {
-    if (this._interval !== null) {
-      clearInterval(this._interval);
-    }
+    if (this._interval !== null) clearInterval(this._interval);
   }
+
 }
 
-/** Box to show widgets */
+/**
+    Box to show widgets.
+ **/
 export default class Clock {
   constructor () {
     this._width = 120;
@@ -41,111 +41,129 @@ export default class Clock {
     this._shand = "#000033";
   }
 
-  /** @return {number} */
+  /**
+      @return {number}
+  **/
   get width () {
     return this._width;
   }
 
   /**
-   * @param {number} px
-   * @return {void}
-   */
+      @param {number} px
+      @return {void}
+  **/
   set width (px) {
     this._width = px;
   }
 
-  /** @return {number} */
+  /**
+      @return {number}
+  **/
   get height () {
     return this._height;
   }
 
   /**
-   * @param {number} px
-   * @return {void}
-   */
+      @param {number} px
+      @return {void}
+  **/
   set height (px) {
     this._height = px;
   }
 
-  /** @return {string} */
+  /**
+      @return {string}
+  **/
   get bg () {
     return this._bg;
   }
 
   /**
-   * @param {string} color
-   * @return {void}
-   */
+      @param {string} color
+      @return {void}
+  **/
   set bg (color) {
     this._bg = color;
   }
 
-  /** @return {string} */
+  /**
+      @return {string}
+  **/
   get number () {
     return this._number;
   }
 
   /**
-   * @param {string} color
-   * @return {void}
-   */
+      @param {string} color
+       @return {void}
+  **/
   set number (color) {
     this._number = color;
   }
 
-  /** @return {string} */
+  /**
+      @return {string}
+  **/
   get axis () {
     return this._axis;
   }
 
   /**
-   * @param {string} color
-   * @return {void}
-   */
+       @param {string} color
+       @return {void}
+  **/
   set axis (color) {
     this._axis = color;
   }
 
-  /** @return {string} */
+  /**
+      @return {string}
+  **/
   get hhand () {
     return this._hhand;
   }
 
   /**
-   * @param {string} color
-   * @return {void}
-   */
+       @param {string} color
+       @return {void}
+  **/
   set hhand (color) {
     this._hhand = color;
   }
 
-  /** @return {string} */
+  /**
+      @return {string}
+  **/
   get mhand () {
     return this._mhand;
   }
 
   /**
-   * @param {string} color
-   * @return {void}
-   */
+       @param {string} color
+       @return {void}
+  **/
   set mhand (color) {
     this._mhand = color;
   }
 
-  /** @return {string} */
+  /**
+      @return {string}
+  **/
   get shand () {
     return this._shand;
   }
 
   /**
-   * @param {string} color
-   * @return {void}
-   */
+       @param {string} color
+       @return {void}
+  **/
   set shand (color) {
     this._shand = color;
   }
 
-  /** @return {!Domo} */
+  /**
+      @return {!Domo}
+  **/
   mkWg () {
     const cv = $("canvas").att("width", this.width).att("height", this.height);
     const ctx = cv.e.getContext("2d");
@@ -155,14 +173,14 @@ export default class Clock {
     this.drawBack(ctx, radius);
     this.paint(ctx, radius);
 
-    new Timer((() => {
-      this.paint(ctx, radius);
-    }).bind(this), 1000).start();
+    new Timer((() => this.paint(ctx, radius)).bind(this), 1000).start();
 
     return cv;
   }
 
-  /** @private */
+  /**
+      @private
+  **/
   paint (ctx, radius) {
     this.drawBorder(ctx, radius);
     this.drawAxis(ctx, radius);
@@ -171,7 +189,9 @@ export default class Clock {
     this.drawAxis(ctx, radius);
   }
 
-  /** @private */
+  /**
+      @private
+  **/
   drawBack (ctx, radius) {
     ctx.beginPath();
     ctx.arc(0, 0, radius, 0, 2 * Math.PI);
@@ -188,7 +208,9 @@ export default class Clock {
     ctx.stroke();
   }
 
-  /** @private */
+  /**
+      @private
+  **/
   drawBorder (ctx, radius) {
     ctx.beginPath();
     ctx.arc(0, 0, radius * 0.93, 0, 2 * Math.PI);
@@ -196,7 +218,9 @@ export default class Clock {
     ctx.fill();
   }
 
-  /** @private */
+  /**
+      @private
+  **/
   drawNumbers (ctx, radius) {
     ctx.fillStyle = this.number;
     ctx.font = radius * 0.16 + "px sans-serif";
@@ -214,7 +238,9 @@ export default class Clock {
     }
   }
 
-  /** @private */
+  /**
+      @private
+  **/
   drawTime (ctx, radius) {
     const now = new Date();
     let hour = now.getHours();
@@ -234,7 +260,9 @@ export default class Clock {
     this.drawHand(ctx, second, radius * 0.9, radius * 0.02, this.shand);
   }
 
-  /** @private */
+  /**
+      @private
+  **/
   drawHand (ctx, pos, len, width, color) {
     ctx.beginPath();
     ctx.lineWidth = width;
@@ -247,7 +275,9 @@ export default class Clock {
     ctx.rotate(-pos);
   }
 
-  /** @private */
+  /**
+      @private
+  **/
   drawAxis (ctx, radius) {
     ctx.beginPath();
     ctx.arc(0, 0, radius * 0.1, 0, 2 * Math.PI);

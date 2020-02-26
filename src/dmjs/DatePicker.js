@@ -7,125 +7,134 @@ import Domo from "./Domo.js";
 import Ui from "./Ui.js";
 import It from "./It.js";
 
-const $ = Ui.$;
+const $ = e => Ui.$(e);
 
-/** Date selector */
+/**
+    Date selector
+**/
 export default class DatePicker {
+
   constructor () {
     /**
-     * @private
-     * @type {string}
-     */
+        @private
+        @type {string}
+    **/
     this._lang = "es";
     /**
-     * @private
-     * @type {DateDm}
-     */
+        @private
+        @type {DateDm}
+    **/
     this._date = DateDm.now();
     /**
-     * @private
-     * @param {string} s date
-     * @return {void}
-     */
+        @private
+        @param {string} s date.
+        @return {void}
+    **/
     this._action = s => {
       alert("'" + s + "' was clicked");
     };
 
     /**
-     * @private
-     * First day of current month.
-     * @type {DateDm}
-     */
+        @private
+        First day of current month.
+        @type {DateDm}
+    **/
     this._dateView = new DateDm(1, this._date.month, this._date.year);
     /**
-     * @private
-     * If DatePicker is style floating.
-     * @type {boolean}
-     */
+        If DatePicker is style floating.
+        @private
+        @type {boolean}
+    **/
     this._floating = false;
     /**
-     * @private
-     * [span] to show the calendar month.
-     * @type {!Domo}
-     */
+        'span' to show the calendar month.
+        @private
+        @type {!Domo}
+    **/
     this._elMonth = $("span");
     /**
-     * @private
-     * [span] to show the calendar year.
-     * @type {!Domo}
-     */
+        'span' to show the calendar year.
+        @private
+        @type {!Domo}
+    **/
     this._elYear = $("span");
     /**
-     * @private
-     * Array[Array[td]] to show the calendar days.
-     * @type {!Array<!Array<!Domo>>}
-     */
+        Array<Array<td>> to show the calendar days.
+        @private
+        @type {!Array<!Array<!Domo>>}
+    **/
     this._elDays = [];
     /**
-     * @private
-     * [tr] 6th. row of calendar.
-     * @type {!Domo}
-     */
+        'tr' 6th. row of calendar.
+        @private
+        @type {!Domo}
+    **/
     this._exTr = $("tr");
     /**
-     * @private
-     * [tr] Last row of calendar
-     * @type {!Domo}
-     */
+        'tr' Last row of calendar
+        @private
+        @type {!Domo}
+    **/
     this._tr4 = $("tr");
     /**
-     * @private
-     * [table] Table of days.
-     * @type {!Domo}
-     */
+        'table' Table of days.
+        @private
+        @type {!Domo}
+    **/
     this._tb = $("table");
   }
 
-  /** @return {DateDm} Date */
+  /**
+      @return {DateDm} Date
+  **/
   get date () {
     return this._date;
   }
 
   /**
-   * Changes date, but it does not modify the view.
-   * @param {DateDm} d Date
-   * @return {void}
-   */
+      Changes date, but it does not modify the view.
+      @param {DateDm} d Date.
+      @return {void}
+  **/
   set date (d) {
     this._date = d;
     this._dateView = new DateDm(1, d.month, d.year);
   }
 
-  /** @return {string} Language */
+  /**
+      @return {string} Language
+  **/
   get lang () {
     return this._lang;
   }
 
   /**
-   * @param {string} value Language
-   * @return {void}
-   */
+      @param {string} value Language.
+      @return {void}
+  **/
   set lang (value) {
     this._lang = value;
   }
 
-  /** @return {function(string):void} Action if click */
+  /**
+    @return {function(string):void} Action if click .
+  ***/
   get action () {
     return this._action;
   }
 
   /**
-   * @param {function(string):void} value Action if click
-   * @return {void}
-   */
+      @param {function(string):void} value Action if click.
+      @return {void}
+  **/
   set action (value) {
     this._action = value;
   }
 
   /**
-   * @private
-   * @return {!Array<string>} Months
-   */
+      @private
+      @return {!Array<string>} Months.
+  **/
   months () {
     return (this._lang === "en")
       ? ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
@@ -135,9 +144,9 @@ export default class DatePicker {
   }
 
   /**
-   * @private
-   * @return {!Array<string>} Week days
-   */
+      @private
+      @return {!Array<string>} Week days.
+  **/
   weekDays () {
     return (this._lang === "en")
       ? ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -145,9 +154,9 @@ export default class DatePicker {
   }
 
   /**
-   * @private
-   * @return {*} Several translations
-   */
+      @private
+      @return {*} Several translations.
+  **/
   i18n () {
     return (this._lang === "en")
       ? {"firstWeekDay": 0, "today": "Today", "none": "None"}
@@ -155,50 +164,54 @@ export default class DatePicker {
   }
 
   /**
-   * @private
-   * @return {void}
-   */
+      @private
+      @return {void}
+  **/
   previousMonth () {
     this._dateView = new DateDm(
-      1, this._dateView.month - 1, this._dateView.year);
+      1, this._dateView.month - 1, this._dateView.year
+    );
     this.load();
   }
 
   /**
-   * @private
-   * @return {void}
-   */
+      @private
+      @return {void}
+  **/
   nextMonth () {
     this._dateView = new DateDm(
-      1, this._dateView.month + 1, this._dateView.year);
+      1, this._dateView.month + 1, this._dateView.year
+    );
     this.load();
   }
 
   /**
-   * @private
-   * @return {void}
-   */
+      @private
+      @return {void}
+  **/
   previousYear () {
     this._dateView = new DateDm(
-      1, this._dateView.month, this._dateView.year - 1);
+      1, this._dateView.month, this._dateView.year - 1
+    );
     this.load();
   }
 
   /**
-   * @private
-   * @return {void}
-   */
+      @private
+      @return {void}
+  **/
   nextYear () {
     this._dateView = new DateDm(
-      1, this._dateView.month, this._dateView.year + 1);
+      1, this._dateView.month, this._dateView.year + 1
+    );
     this.load();
   }
 
   /**
-   * Callback to click on today.
-   * @private
-   * @return {void}
-   */
+      Callback to click on today.
+      @private
+      @return {void}
+  **/
   today () {
     const today = DateDm.now();
     this._dateView = new DateDm(1, today.month, today.year);
@@ -206,10 +219,10 @@ export default class DatePicker {
   }
 
   /**
-   * Callback to click on none.
-   * @private
-   * @return {void}
-   */
+      Callback to click on none.
+      @private
+      @return {void}
+  **/
   none () {
     this._date = null;
     this.load();
@@ -217,11 +230,11 @@ export default class DatePicker {
   }
 
   /**
-   * Callback to click on days.
-   * @private
-   * @param {!DateDm} d Date
-   * @return {void}
-   */
+      Callback to click on days.
+      @private
+      @param {!DateDm} d Date.
+      @return {void}
+  **/
   mkDayFunction (d) {
     this._date = d;
     this.load();
@@ -229,10 +242,10 @@ export default class DatePicker {
   }
 
   /**
-   * Reload the DataPicker.
-   * @private
-   * @return {void}
-   */
+      Reload the DataPicker.
+      @private
+      @return {void}
+  **/
   load () {
     const self = this;
 
@@ -244,7 +257,8 @@ export default class DatePicker {
     const month = self._dateView.month;
     /** @type {!DateDm} */
     let date1 = new DateDm(
-      self._dateView.day - ix, month, self._dateView.year);
+      self._dateView.day - ix, month, self._dateView.year
+    );
 
     const today = DateDm.now();
     const tyear = today.year;
@@ -263,9 +277,7 @@ export default class DatePicker {
 
     let extraRow = false;
     It.range(6).each(function (i) {
-      if (i === 5 && date1.month === month) {
-        extraRow = true;
-      }
+      if (i === 5 && date1.month === month) extraRow = true;
       It.range(7).each(j => {
         const d = self._elDays[i][j];
         const year1 = date1.year;
@@ -275,25 +287,18 @@ export default class DatePicker {
           d.klass("select");
         } else {
           d.klass("day");
-          if (date1.month !== month) {
-            d.klass("dayOut");
-          }
+          if (date1.month !== month) d.klass("dayOut");
           if (date1.date.getDay() === 6 || date1.date.getDay() === 0) {
             d.klass("weekend");
-            if (date1.month !== month) {
-              d.klass("weekendOut");
-            }
+            if (date1.month !== month) d.klass("weekendOut");
           }
         }
-        if (day1 === tday && month1 === tmonth && year1 === tyear) {
+        if (day1 === tday && month1 === tmonth && year1 === tyear)
           d.klass("today");
-        }
 
         const ddate1 = date1;
         d.html("<span class='day'>" + ddate1.day + "</span>");
-        d.e.onclick = () => {
-          self.mkDayFunction(ddate1);
-        };
+        d.e.onclick = () => self.mkDayFunction(ddate1);
 
         date1 = new DateDm(date1.day + 1, date1.month, date1.year);
       });
@@ -314,29 +319,26 @@ export default class DatePicker {
   }
 
   /**
-   * @return {!Domo} The DOMElement of 'this'
-   */
+      @return {!Domo} The DOMElement of 'this'.
+  **/
   make () {
     const self = this;
     /**
-     * @param {string} tx Param
-     * @param {function ():void} f Function
-     * @return {!Domo} Cell
-     */
+        @param {string} tx
+        @param {function ():void} f
+        @return {!Domo} Cell.
+    **/
     const mkArrow = (tx, f) =>
       $("td").klass("arrow").add($("span").html(tx)
-        .on("click", () => {
-          f();
-        }));
+        .on("click", () => f()));
 
-    const mkHeader = (colspan, txarr1, farr1, element, txarr2, farr2) => {
-      return $("td").att("colspan", colspan)
+    const mkHeader = (colspan, txarr1, farr1, element, txarr2, farr2) =>
+      $("td").att("colspan", colspan)
         .add($("table").klass("in")
           .add($("tr")
             .add(mkArrow(txarr1, farr1))
             .add($("td").add(element.klass("title")))
             .add(mkArrow(txarr2, farr2))));
-    };
 
     this._elMonth = $("span");
     this._elYear = $("span");
@@ -345,34 +347,28 @@ export default class DatePicker {
     self._tr4 = $("tr")
       .add($("td").att("colspan", 4).klass("left")
         .add($("span").klass("link")
-          .html(self.i18n()["today"]).on("click", () => {
-            self.today();
-          })))
+          .html(self.i18n()["today"]).on("click", () => self.today())))
       .add($("td").att("colspan", 3).klass("right")
         .add($("span").klass("link").html(self.i18n()["none"])
-          .on("click", () => {
-            self.none();
-          })));
+          .on("click", () => self.none())));
 
     self._tb = $("table")
       .att("hasTrEx", "false")
       .klass("dmDatePicker")
       .add($("tr")
         .add(mkHeader(
-          4, "&laquo", () => {
-            self.previousMonth();
-          }, self._elMonth,
-          "&raquo;", () => {
-            self.nextMonth();
-          }
+          4, "&laquo",
+          () => self.previousMonth(),
+          self._elMonth,
+          "&raquo;",
+          () => self.nextMonth()
         ))
         .add(mkHeader(
-          3, "&laquo", () => {
-            self.previousYear();
-          }, self._elYear,
-          "&raquo;", () => {
-            self.nextYear();
-          }
+          3, "&laquo",
+          () => self.previousYear(),
+          self._elYear,
+          "&raquo;",
+          () => self.nextYear()
         )))
       .add($("tr")
         .adds([...It.range(7).map(i => {
@@ -404,15 +400,15 @@ export default class DatePicker {
     this.load();
     return $("div")
       .style(self._floating ? "position:absolute" : "position:relative")
-      .add(self._tb);
-
+      .add(self._tb)
+    ;
   }
 
   /**
-   * Makes a DatePicker which depends on a button.
-   * @param {!Domo} button Button
-   * @return {!Domo} DatePicker DOM
-   */
+      Makes a DatePicker which depends on a button.
+      @param {!Domo} button
+      @return {!Domo} DatePicker DOM.
+  **/
   makeButton (button) {
     const self = this;
 
@@ -442,10 +438,10 @@ export default class DatePicker {
   }
 
   /**
-   * Makes a DatePicker which depends on a text field.
-   * @param {!Domo} textInput Input
-   * @return {!Domo} DatePicker DOM
-   */
+      Makes a DatePicker which depends on a text field.
+      @param {!Domo} textInput
+      @return {!Domo} DatePicker DOM.
+  **/
   makeText (textInput) {
     const self = this;
 
@@ -469,9 +465,7 @@ export default class DatePicker {
     };
     textInput.value(format(self._date.toBase()));
     textInput.e.onclick = btAction;
-    textInput.e.onkeydown = function (e) {
-      e.preventDefault();
-    };
+    textInput.e.onkeydown = (e) => e.preventDefault();
 
     const previousAction = self._action;
     self._action = s => {

@@ -3,25 +3,78 @@
 
 import Domo from "./Domo.js"; // eslint-disable-line
 
-/** List sorter */
+/**
+    List sorter.
+**/
+/**
+    Creates a widget to sort lists. For example:
+
+    ---- Creates a horizontal widget
+      const ls = new ListSorter(
+        () => Ui.img("blank"),
+        () => Ui.img("go-previous"),
+        () => Ui.img("go-next"),
+        listA,
+        (l) => {
+          listA = l;
+          this.updateA();
+        }
+      );
+      ...
+      $("table")
+        .add($("tr")
+          .adds(ls.ups.map(e => $("td").add(e))))
+        .add($("tr")
+          .adds(listA.map(e => $("td").html(String(e)))))
+        .add($("tr")
+          .adds(ls.downs.map(e => $("td").add(e))))
+
+    ---- Creates a vertical widget
+      const ls = new ListSorter(
+        () => Ui.img("blank"),
+        () => Ui.img("go-up"),
+        () => Ui.img("go-down"),
+        listB,
+        (l) => {
+          listB = l;
+          this.updateB();
+        }
+      );
+      ...
+      $("table")
+        .adds(listB.map((e, i) =>
+          $("tr")
+            .add($("td").add(ls.ups[i]))
+            .add($("td").add(ls.downs[i]))
+            .add($("td").html(String(e[0])))
+            .add($("td").html(e[1]))
+        ))
+
+**/
 export default class ListShorter {
 
   /**
-   * @param {function ():!Domo} mkBlank
-   * @param {function ():!Domo} mkUp
-   * @param {function ():!Domo} mkDown
-   * @param {!Array<?>} list
-   * @param {function (!Array<?>):void} action
-   */
+      @param {function ():!Domo} mkBlank
+      @param {function ():!Domo} mkUp
+      @param {function ():!Domo} mkDown
+      @param {!Array<?>} list
+      @param {function (!Array<?>):void} action
+  **/
   constructor (mkBlank, mkUp, mkDown, list, action) {
     const len1 = list.length - 1;
-    if (list.length < 1) {
-      throw (new Error("list must have at least 2 elements"));
-    }
+    if (list.length < 1)
+      throw new Error("list must have at least 2 elements");
+
     const l = list.map(e => e);
-    /** type {!Array<!Domo>} */
+    /**
+        @private
+        type {!Array<!Domo>}
+    **/
     this._ups = [];
-    /** type {!Array<!Domo>} */
+    /**
+        @private
+        type {!Array<!Domo>}
+    **/
     this._downs = [];
 
     for (let i = 0; i <= len1; ++i) {
@@ -44,13 +97,18 @@ export default class ListShorter {
     }
   }
 
-  /** return {!Array<!Domo>} */
+  /**
+      @return {!Array<!Domo>}
+  **/
   get ups () {
     return this._ups;
   }
 
-  /** return {!Array<!Domo>} */
+  /**
+      @return {!Array<!Domo>}
+  **/
   get downs () {
     return this._downs;
   }
+
 }
