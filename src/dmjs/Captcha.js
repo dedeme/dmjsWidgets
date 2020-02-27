@@ -9,60 +9,35 @@ import It from "./It.js";
 import Ui from "./Ui.js";
 import Rbox from "./Rbox.js";
 import Store from "./Store.js";
-import DateDm from "./DateDm.js";
 // eslint-disable-next-line
 import Domo from "./Domo.js"
 
 const $ = e => Ui.$(e);
 
-/**
-  @private
-*/
-class Model {
-  constructor (zeroColor, oneColor) {
-    this._zeroColor = zeroColor;
-    this._oneColor = oneColor;
-    this._checks = [];
-    this._value = "11110000";
-  }
+function getCounter (id) {
+  return Number(Store.take(id + "_counter") || "0") | 0;
+}
 
-  // Returns true if selection == value
-  match () {
-    const selection = () =>
-      It.join(It.from(this._checks).map(c => c.checked() ? "1" : "0"));
+function setCounter (id, n) {
+  Store.put(id + "_counter", String(n));
+}
 
-    return selection() === this._value;
-  }
+function resetCounter (id) {
+  Store.del(id + "_counter");
+}
 
-  /**
-      @return {!Domo} DOM Object
-  **/
-  make () {
-    this._checks = [];
-    const tds = [];
-    It.range(this._value.length).each(ix => {
-      let back = this._zeroColor;
-      if (this._value.charAt(ix) === "1") back = this._oneColor;
-      const check = $("input").att("type", "checkbox");
-      this._checks.push(check);
-      tds.push($("td")
-        .att("style", "border: 1px solid;background-color: " + back)
-        .add(check));
-    });
+function getTime (id) {
+  return Number(
+    Store.take(id + "_time") || String(new Date().getTime())
+  );
+}
 
-    const box = new Rbox(tds);
-    const tr1 = $("tr");
-    const tr2 = $("tr");
-    It.range(this._value.length).each(ix => {
-      const tr = (ix < this._value.length / 2) ? tr1 : tr2;
-      tr.add(box.next());
-    });
+function setTime (id, n) {
+  Store.put(id + "_time", String(n));
+}
 
-    return $("table").att("border", 0)
-      .att("style", "border: 1px solid;background-color: #fffff0")
-      .add(tr1)
-      .add(tr2);
-  }
+function resetTime (id) {
+  Store.del(id + "_time");
 }
 
 /**
@@ -72,93 +47,97 @@ export default class Captcha {
 
   /**
       @param {string} storeId Identifier for store Captcha data in local store.
-      @param {number} counterLimit Maximun error number without captcha.
+      @param {number=} counterLimit Maximun error number without captcha.
       @param {string=} zeroColor Color cells to not mark (Default: "#f0f0f0").
       @param {string=} oneColor Color cells to mark (Default: "#c0c0c0").
   **/
   constructor (
-    storeId, counterLimit, zeroColor = "#f0f0f0", oneColor = "#c0c0c0"
+    storeId, counterLimit = 3, zeroColor = "#f0f0f0", oneColor = "#c0c0c0"
   ) {
-    /**
-        @private
-        @const {string}
-    **/
     this._storeId = storeId;
-    /**
-        @private
-        @const {number}
-    **/
     this._counterLimit = counterLimit;
-    /**
-        @private
-        @const {!Model}
-    **/
-    this._model = new Model(zeroColor, oneColor);
+    this._zeroColor = zeroColor;
+    this._oneColor = oneColor;
+    const now = new Date().getTime();
+    this._counter = getCounter(storeId);
+    if (now - getTime(storeId) > 900000) {
+      this._counter = 0;
+      setCounter(storeId, 0);
+      setTime(storeId, new Date().getTime());
+    }
+
+    this._ch0 = [...It.range(4).map(() => $("input").att("type", "checkbox"))];
+    this._ch1 = [...It.range(4).map(() => $("input").att("type", "checkbox"))];
+    this._wg = $("div");
+    this.view();
   }
 
   /**
-      @return {number} Limit
+      @return {!Domo}
   **/
-  counterLimit () {
-    return this._counterLimit;
+  get wg () {
+    return this._wg;
   }
 
   /**
-      @return {number} counter
+      Returns true if tries counter is greater or equals to its limit.
+      @return {boolean}
   **/
-  counter () {
-    const storeId = this._storeId;
+  isUpLimit () {
+    return this._counter >= this._counterLimit;
+  }
 
-    const ret = n => {
-      Store.put(storeId + "_counter", n);
-      Store.put(storeId + "_time", String(DateDm.now().toTime()));
-      return Number(n);
-    };
-
-    let c = Store.take(storeId + "_counter");
-    if (c === null) return ret("0");
-    /** @suppress {checkTypes} */
-    c = parseInt(c);
-
-    /** @suppress {checkTypes} */
-    const t = parseInt(Store.take(this._storeId + "_time"));
-    if (DateDm.now().toTime() - t > 900000) return ret("0");
-
-    return c;
+  /**
+      Checks cells.
+      @return {boolean} 'true' if ckecks are correct.
+  **/
+  check () {
+    return this._ch0.every(ch => !ch.checked()) &&
+      this._ch1.every(ch => ch.checked());
   }
 
   /**
       Increments counter.
       @return {void}
   **/
-  incCounter () {
-    /** @suppress {checkTypes} */
-    const c = parseInt(Store.take(this._storeId + "_counter")) + 1;
-    Store.put(this._storeId + "_counter", String(c));
-    Store.put(this._storeId + "_time", String(DateDm.now().toTime()));
+  increment () {
+    setCounter(this._storeId, this._counter + 1);
+    setTime(this._storeId, new Date().getTime());
   }
 
   /**
-      Restores counter value to zero.
+      Resets counter.
       @return {void}
   **/
-  resetCounter () {
-    Store.del(this._storeId + "_counter");
-    Store.del(this._storeId + "_time");
+  reset () {
+    resetCounter(this._storeId);
+    resetTime(this._storeId);
   }
+
+  // View ----------------------------------------------------------------------
 
   /**
-      @return {boolean} Indicates if user selection is valid.
+      @private
+      @return {void}
   **/
-  match () {
-    return this._model.match();
-  }
+  view () {
+    const tds = this._ch0.map(ch =>
+      $("td")
+        .att("style", "border: 1px solid;background-color: " + this._zeroColor)
+        .add(ch)
+    ).concat(this._ch1.map(ch =>
+      $("td")
+        .att("style", "border: 1px solid;background-color: " + this._oneColor)
+        .add(ch)
+    ));
+    const box = new Rbox(tds);
+    const tds1 = [...It.range(4).map(() => box.next())];
+    const tds2 = [...It.range(4).map(() => box.next())];
 
-  /**
-      @return {!Domo} Captcha object.
-  **/
-  make () {
-    return this._model.make();
+    this._wg.removeAll()
+      .add($("table").att("border", 0)
+        .att("style", "border: 1px solid;background-color: #fffff0")
+        .add($("tr").adds(tds1))
+        .add($("tr").adds(tds2)));
   }
-
 }
