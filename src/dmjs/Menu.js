@@ -104,7 +104,6 @@ export class Menu {
         .add($("td")
           .style(`
             padding-right:4px;
-            line-height:22px;
             ${this._withSeparator ? "border-right: 1px solid #000000;" : ""}`
           )
           .adds(this._lopts.map(e => e.wg)))

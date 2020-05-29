@@ -61,8 +61,10 @@ export class VMenu {
   **/
   constructor (opts, selected) {
     function setId (o) {
-      if (o.id.isJust() && o.id.fromJust() === selected)
+      if (o.id.isJust() && o.id.fromJust() === selected) {
         o.wg.setStyle("font-style", "italic");
+        o.wg.setStyle("color", "#803010");
+      }
     }
     opts.forEach(o => setId(o));
 
